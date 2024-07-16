@@ -1,24 +1,30 @@
+import mongoose from "mongoose";
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 import { v2 as cloudinary } from "cloudinary"
 
 
-
 const creatPost = async (req, res) => {
+   
+  
     try {
-        const { postedBy, text } = req.body;
-        let { img } = req.body;
+        console.log("Inside in creatPost........");
+        const img = req.file?.path
 
+        const { postedBy, text } = req.body;
+        console.log("Postedby:  ",postedBy ,"   text:  ",text);
+
+        console.log(img);
         if (!postedBy || !text) {
             return res.status(400).json({
                 error: "Posted by and text field are reuired"
 
             })
         }
-
         const user = await User.findById(postedBy);
+        console.log("Line 23.................");
 
-
+        console.log(user);
         if (!user) {
             return res.status(404).json({
                 error: "User not found"
@@ -32,6 +38,7 @@ const creatPost = async (req, res) => {
 
             })
         }
+        console.log("Line 39.................");
 
         const maxLength = 500;
 
@@ -42,14 +49,15 @@ const creatPost = async (req, res) => {
             })
         }
 
-        if (!img) {
+        if (img) {
             const uploadedResponce = await cloudinary.uploader.upload(img)
             img = uploadedResponce.secure_url;
 
         }
-
+        console.log("Line 56.................");
         const newPost = new Post({ postedBy, text, img });
         await newPost.save();
+        console.log("Line 57.................");
 
 
     } catch (error) {

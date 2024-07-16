@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import Post from "../models/postModel.js";
 import bcrypt from "bcryptjs";
-import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
+import generateTokenAndSetCookie from "../utils/helper/generateTokenAndSetCookie.js";
 import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
 
@@ -32,6 +32,7 @@ const getUserProfile = async (req, res) => {
 
 const signupUser = async (req, res) => {
 	try {
+		console.log("I am in Signup ......................");
 		const { name, email, username, password } = req.body;
 		const user = await User.findOne({ $or: [{ email }, { username }] });
 

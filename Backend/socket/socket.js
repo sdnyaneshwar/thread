@@ -3,19 +3,17 @@ import http from "http"
 import express  from "express";
 import Message from "../models/messageModel.js"
 import Conversation from "../models/conversationModel.js";
+import cors from "cors"
 const app = express()
 
 const server = http.createServer(app);
 
-const io = new Server(
-    server,{
-        cors:{
-            origin:"http://localhost:3000",
-            methods:["POST","GET"],
-        }
-    }
-);
+const io = new Server(server);
 
+app.use(cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+    methods: ["GET", "POST"], // Allow these HTTP methods
+}));
 const userSocketMap = {}  // userId: socketId
 
 export const getRecipientSocketId = (recipientId)=>{

@@ -3,7 +3,7 @@ import {getConversations,
     getMessages,
     sendMessage
 } from '../controllers/messageController.js'
-import protectRoute from '../middlewares/protectedRoute'
+import protectRoute from '../middlewares/protectedRoute.js'
 
 const router = express.Router()
 

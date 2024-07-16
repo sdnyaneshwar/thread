@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema({
         type:String
     },
     likes:{
-        typeof:[mongoose.Schema.Types.ObjectId],
+        type:[mongoose.Schema.Types.ObjectId],
         ref:"User",
         default:[]
 
@@ -25,11 +25,11 @@ const postSchema = new mongoose.Schema({
             userId:{
                 type:mongoose.Schema.Types.ObjectId,
                 ref:"User",
-                required:true
+                // required:true
             },
             text:{
                 type:String,
-                required:true,
+                // required:true,
 
             },
             userProfilePic:{
