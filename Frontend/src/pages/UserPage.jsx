@@ -20,7 +20,12 @@ const UserPage = () => {
 			if (!user) return;
 			setFetchingPosts(true);
 			try {
-				const res = await fetch(`http://localhost:5000/api/posts/user/${username}`);
+				const res = await fetch(`/api/posts/user/${username}`,{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+	
+					}});
 				const data = await res.json();
 				console.log(data);
 				setPosts(data);

@@ -10,7 +10,7 @@ export const SettingsPage = () => {
 		if (!window.confirm("Are you sure you want to freeze your account?")) return;
 
 		try {
-			const res = await fetch("http://localhost:5000/api/users/freeze", {
+			const res = await fetch("/api/users/freeze", {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
 			});

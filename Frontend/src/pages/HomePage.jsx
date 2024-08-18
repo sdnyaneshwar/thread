@@ -15,7 +15,12 @@ const HomePage = () => {
 			setLoading(true);
 			setPosts([]);
 			try {
-				const res = await fetch("/api/posts/feed");
+				const res = await fetch("/api/posts/feed",{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+	
+					}});
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");

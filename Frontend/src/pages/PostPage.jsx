@@ -25,7 +25,13 @@ const PostPage = () => {
 		const getPost = async () => {
 			setPosts([]);
 			try {
-				const res = await fetch(`http://localhost:5000/api/posts/${pid}`);
+				const res = await fetch(`http://localhost:5000/api/posts/${pid}`,{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+	
+					}}
+				);
 				const data = await res.json();
 				if (data.error) {
 					showToast("Error", data.error, "error");
@@ -45,7 +51,10 @@ const PostPage = () => {
 
 			const res = await fetch(`/api/posts/${currentPost._id}`, {
 				method: "DELETE",
-			});
+				headers: {
+					"Content-Type": "application/json",
+
+				}});
 			const data = await res.json();
 			if (data.error) {
 				showToast("Error", data.error, "error");
