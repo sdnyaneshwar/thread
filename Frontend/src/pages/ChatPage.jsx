@@ -73,7 +73,7 @@ const ChatPage = () => {
 		try {
 			const res = await fetch(`/api/users/profile/${searchText}`,
 				{
-					method: "POST",
+					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
 
