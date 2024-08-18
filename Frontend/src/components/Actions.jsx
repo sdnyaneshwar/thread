@@ -20,97 +20,93 @@ import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 import postsAtom from "../atoms/postsAtom";
 
-const Actions = ({post})=>{
-    const user = useRecoilValue(userAtom)
-    const [liked , setLiked] = useState(post.likes.includes(user?._id))
-    const [isLiking ,setIsLiking] = useState(false);
-    const [isReplying , setIsReplying] = useState(false)
-    const [posts, setPosts] = useRecoilState(postsAtom);
+const Actions = ({ post }) => {
+	const user = useRecoilValue(userAtom);
+	const [liked, setLiked] = useState(post.likes.includes(user?._id));
+	const [posts, setPosts] = useRecoilState(postsAtom);
+	const [isLiking, setIsLiking] = useState(false);
+	const [isReplying, setIsReplying] = useState(false);
+	const [reply, setReply] = useState("");
 
-    const [reply , setReply] = useState("")
-    const showToast = useShowToast()
-    const {isOpen ,onOpen ,onClose} = useDisclosure()
-    
-    const handleLikeAndUnlike =async()=>{
-        if(!user) return showToast("Error" ,"You must be logged in to like a post" ,"error")
-        if(isLiking) return
-        setIsLiking(true)
-        try {
-            const res = await fetch("/api/posts/like/"+post._id,{
-                method:"PUT",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-            })
+	const showToast = useShowToast();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
-            const data = await res.json()
-            if(data.error) return showToast("Error",data.error, "error") 
-            
-                if(!liked){
-                    const updatedPost = posts.map((p)=>{
-                        if(p._id === post._id){
-                            return { ...p, likes:[...p.likes, user._id]};
-                        }
-                        return p;
-                    })
-                     setPosts(upda)
-                }
-                else{
-                    const updatedPost = posts.map((p)=>{
-                      if(p._id == post._id){
-                        return {...p , likes:p.likes.filter((id)=> id!==user._id)};
-                    }
-                    return p;
-                })
-                setPosts(updatedPost)
-                }
+	const handleLikeAndUnlike = async () => {
+		if (!user) return showToast("Error", "You must be logged in to like a post", "error");
+		if (isLiking) return;
+		setIsLiking(true);
+		try {
+			const res = await fetch("/api/posts/like/" + post._id, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			const data = await res.json();
+			if (data.error) return showToast("Error", data.error, "error");
 
-                setLiked(!liked);
-        } catch (error) {
-            showToast("Error" ,error.message , "error")            
-        } finally{
-            setIsLiking(false)
+			if (!liked) {
+				// add the id of the current user to post.likes array
+				const updatedPosts = posts.map((p) => {
+					if (p._id === post._id) {
+						return { ...p, likes: [...p.likes, user._id] };
+					}
+					return p;
+				});
+				setPosts(updatedPosts);
+			} else {
+				// remove the id of the current user from post.likes array
+				const updatedPosts = posts.map((p) => {
+					if (p._id === post._id) {
+						return { ...p, likes: p.likes.filter((id) => id !== user._id) };
+					}
+					return p;
+				});
+				setPosts(updatedPosts);
+			}
 
-        }
-    }
+			setLiked(!liked);
+		} catch (error) {
+			showToast("Error", error.message, "error");
+		} finally {
+			setIsLiking(false);
+		}
+	};
 
-
-    const handleReply =async()=>{
-        if (!user) return showToast("Error", "You must be logged in to reply to a post", "error");
+	const handleReply = async () => {
+		if (!user) return showToast("Error", "You must be logged in to reply to a post", "error");
 		if (isReplying) return;
-        setIsReplying(true);
-        try {
-            const res = await fetch("/api/posts/reply/" + post._id, {
+		setIsReplying(true);
+		try {
+			const res = await fetch("/api/posts/reply/" + post._id, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({ text: reply }),
 			});
-
-            const data = await res.json();
+			const data = await res.json();
 			if (data.error) return showToast("Error", data.error, "error");
-            const updatedPosts = posts.map((p) => {
+
+			const updatedPosts = posts.map((p) => {
 				if (p._id === post._id) {
 					return { ...p, replies: [...p.replies, data] };
 				}
 				return p;
 			});
-            setPosts(updatedPosts);
+			setPosts(updatedPosts);
 			showToast("Success", "Reply posted successfully", "success");
 			onClose();
 			setReply("");
-        } catch (error) {
-            showToast("Error", error.message, "error");
-        }
-        finally{
-            setIsReplying(false);
+		} catch (error) {
+			showToast("Error", error.message, "error");
+		} finally {
+			setIsReplying(false);
+		}
+	};
 
-        }
-    }
-
-    return(
-        <Flex flexDirection='column'>
+	return (
+		<Flex flexDirection='column'>
 			<Flex gap={3} my={2} onClick={(e) => e.preventDefault()}>
 				<svg
 					aria-label='Like'

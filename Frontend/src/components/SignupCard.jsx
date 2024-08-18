@@ -1,4 +1,3 @@
-
 import {
 	Flex,
 	Box,
@@ -18,10 +17,9 @@ import {
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useSetRecoilState } from "recoil";
+import authScreenAtom from "../atoms/authAtom";
 import useShowToast from "../hooks/useShowToast";
-import authScreenAtom from "../atoms/authAtom"
-import userAtom from "../atoms/userAtoms"
-
+import userAtom from "../atoms/userAtom"
 
 
 export default function SignupCard() {
@@ -38,10 +36,8 @@ export default function SignupCard() {
 	const setUser = useSetRecoilState(userAtom);
 
 	const handleSignup = async () => {
-		console.log("I am in function");
-		console.log(inputs);
 		try {
-			const res = await fetch("http://localhost:5000/api/users/signup",  {
+			const res = await fetch("http://localhost:5000/api/users/signup", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -49,7 +45,7 @@ export default function SignupCard() {
 				body: JSON.stringify(inputs),
 			});
 			const data = await res.json();
-			console.log(data);
+
 			if (data.error) {
 				showToast("Error", data.error, "error");
 				return;
@@ -57,18 +53,17 @@ export default function SignupCard() {
 
 			localStorage.setItem("user-threads", JSON.stringify(data));
 			setUser(data);
-			// console.log(data);
 		} catch (error) {
 			showToast("Error", error, "error");
 		}
 	};
 
 	return (
-		<Flex align={"center"} justify={"center"} shadow={"inherit"}>
-			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12}  px={6}>
+		<Flex align={"center"} justify={"center"}>
+			<Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
 				<Stack align={"center"}>
 					<Heading fontSize={"4xl"} textAlign={"center"}>
-						Signup
+						Sign up
 					</Heading>
 				</Stack>
 				<Box rounded={"lg"} bg={useColorModeValue("white", "gray.dark")} boxShadow={"lg"} p={8}>
@@ -76,27 +71,22 @@ export default function SignupCard() {
 						<HStack>
 							<Box>
 								<FormControl isRequired>
-									<FormLabel>
-										FullName
-									</FormLabel>
-									<Input type="text" 
-									onChange={(e) => setInputs({ ...inputs, name: e.target.value })} 
-									value={inputs.name}
+									<FormLabel>Full name</FormLabel>
+									<Input
+										type='text'
+										onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
+										value={inputs.name}
 									/>
 								</FormControl>
 							</Box>
 							<Box>
 								<FormControl isRequired>
-									<FormLabel>
-										Username
-									</FormLabel>
-									<Input type="text" 
-									onChange={(e) =>
-									 setInputs({ ...inputs, username: e.target.value })} 
-									 value={inputs.username}
-									 />
-
-
+									<FormLabel>Username</FormLabel>
+									<Input
+										type='text'
+										onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
+										value={inputs.username}
+									/>
 								</FormControl>
 							</Box>
 						</HStack>
@@ -109,16 +99,18 @@ export default function SignupCard() {
 							/>
 						</FormControl>
 						<FormControl isRequired>
-							<FormLabel>
-								Password
-							</FormLabel>
+							<FormLabel>Password</FormLabel>
 							<InputGroup>
-								<Input type={showPassword ? "text" : "password"} 
-										onChange={(e)=>setInputs({...inputs,password:e.target.value})}
-										value={inputs.password}
+								<Input
+									type={showPassword ? "text" : "password"}
+									onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+									value={inputs.password}
 								/>
 								<InputRightElement h={"full"}>
-									<Button onClick={()=>setShowPassword((prev)=>!prev)}>
+									<Button
+										variant={"ghost"}
+										onClick={() => setShowPassword((showPassword) => !showPassword)}
+									>
 										{showPassword ? <ViewIcon /> : <ViewOffIcon />}
 									</Button>
 								</InputRightElement>
@@ -149,7 +141,6 @@ export default function SignupCard() {
 					</Stack>
 				</Box>
 			</Stack>
-
 		</Flex>
 	);
 }

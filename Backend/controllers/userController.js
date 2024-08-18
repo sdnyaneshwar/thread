@@ -69,7 +69,6 @@ const signupUser = async (req, res) => {
 		console.log("Error in signupUser: ", err.message);
 	}
 };
-
 const loginUser = async (req, res) => {
 	try {
 		const { username, password } = req.body;

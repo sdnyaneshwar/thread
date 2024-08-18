@@ -1,4 +1,4 @@
-import userAtom from "../atoms/userAtoms";
+import userAtom from "../atoms/userAtom";
 import {useSetRecoilState} from "recoil";
 import useShowToast from "./useShowToast";
 

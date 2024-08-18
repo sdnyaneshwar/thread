@@ -23,7 +23,7 @@ const sendMessage = async(req, res) =>{
                 }
             })
 
-            await Conversation.save()
+            await conversion.save()
         }
 
         if(img){
@@ -99,6 +99,7 @@ const getMessages = async(req,res)=>{
 
 const getConversations = async(req,res)=>{
     const userId = req.user._id;
+    console.log(userId);
     try {
         const conversations = await Conversation.find({
             participants:userId
@@ -106,6 +107,7 @@ const getConversations = async(req,res)=>{
             path:"participants",
             select:"username profilePic",
         })
+        console.log(conversations);
 
         conversations.forEach((conversation)=>{
             conversation.participants = conversation.participants.filter(
