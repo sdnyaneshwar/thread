@@ -1,5 +1,6 @@
 import express from 'express'
 import {
+    findUser,
     followUnFollowUser,
     freezeAccount,
     getSuggestedUsers,
@@ -22,7 +23,8 @@ router.get("/profile/:query",getUserProfile);
 router.get("/suggested",protectRoute,getSuggestedUsers)
 router.post("/follow/:id",protectRoute,followUnFollowUser)
 router.put("/update/:id",protectRoute,updateUser);
-router.put("/freeze",protectRoute,freezeAccount)
+router.put("/freeze",protectRoute,freezeAccount);
+router.get("/search/:username",protectRoute,findUser)
 
 export default router;
 

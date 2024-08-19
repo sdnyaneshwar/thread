@@ -239,6 +239,37 @@ const freezeAccount = async (req, res) => {
 	}
 };
 
+const findUser=async(req,res)=>{
+	try {
+		const {username} = req.params;
+		// console.log(username);
+		
+
+		if(!username){
+			return res.status(400).json({ error: "Username is not found" });
+		}
+
+	
+		const users = await User.find({
+            username: { $regex: username, $options: 'i' } // Case-insensitive search on the username field
+        });
+		 
+		if(!users){
+			return res.status(400).json({
+				error:"User not found"
+			})
+		}
+
+		return res.status(200).json(
+			users
+		)
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+
+	}
+}
+
+
 export {
 	signupUser,
 	loginUser,
@@ -248,4 +279,5 @@ export {
 	getUserProfile,
 	getSuggestedUsers,
 	freezeAccount,
+	findUser
 };

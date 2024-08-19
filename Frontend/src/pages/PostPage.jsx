@@ -25,7 +25,7 @@ const PostPage = () => {
 		const getPost = async () => {
 			setPosts([]);
 			try {
-				const res = await fetch(`http://localhost:5000/api/posts/${pid}`,{
+				const res = await fetch(`/api/posts/${pid}`,{
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",

@@ -5,8 +5,10 @@ import Post from "../components/Post";
 import { useRecoilState } from "recoil";
 import postsAtom from "../atoms/postsAtom";
 import SuggestedUsers from "../components/SuggestedUsers";
+import searchAtom from "../atoms/searchAtom";
 
 const HomePage = () => {
+	const [searchShow, setSearchShow]=useRecoilState(searchAtom)
 	const [posts, setPosts] = useRecoilState(postsAtom);
 	const [loading, setLoading] = useState(true);
 	const showToast = useShowToast();
@@ -38,7 +40,7 @@ const HomePage = () => {
 	}, [showToast, setPosts]);
 
 	return (
-		<Flex gap='10' alignItems={"flex-start"}>
+		<Flex gap='10' alignItems={"flex-start"} onMouseOver={()=>setSearchShow(false)}>
 			<Box flex={70}>
 				{!loading && posts.length === 0 && <h1>Follow some users to see the feed</h1>}
 

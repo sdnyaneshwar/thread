@@ -21,7 +21,7 @@ const UserPage = () => {
 			setFetchingPosts(true);
 			try {
 				const res = await fetch(`/api/posts/user/${username}`,{
-					method: "POST",
+					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
 	

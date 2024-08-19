@@ -5,4 +5,5 @@ const userAtom = atom({
 	default: JSON.parse(localStorage.getItem("user-threads")),
 });
 
+
 export default userAtom;

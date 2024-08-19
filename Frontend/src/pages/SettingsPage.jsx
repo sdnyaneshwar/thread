@@ -1,11 +1,15 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Center, Stack, Switch, Text, useColorMode } from "@chakra-ui/react";
 import useShowToast from "../hooks/useShowToast";
 import useLogout from "../hooks/useLogout";
+import { IoSunnyOutline } from "react-icons/io5";
+import { MdOutlineDarkMode } from "react-icons/md";
+
 
 export const SettingsPage = () => {
 	const showToast = useShowToast();
 	const logout = useLogout();
-
+	const { colorMode, toggleColorMode } = useColorMode();
+	
 	const freezeAccount = async () => {
 		if (!window.confirm("Are you sure you want to freeze your account?")) return;
 
@@ -37,6 +41,13 @@ export const SettingsPage = () => {
 			<Button size={"sm"} colorScheme='red' onClick={freezeAccount}>
 				Freeze
 			</Button>
+			<Stack  direction='row' my={8} align={"center"} onClick={toggleColorMode}>
+					<IoSunnyOutline/>
+					<Switch colorScheme='teal' size='lg' />
+					<MdOutlineDarkMode/>
+					<Text>{colorMode}</Text>
+			</Stack>
+
 		</>
 	);
 };
