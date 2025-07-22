@@ -9,7 +9,7 @@ export const SettingsPage = () => {
 	const showToast = useShowToast();
 	const logout = useLogout();
 	const { colorMode, toggleColorMode } = useColorMode();
-	
+
 	const freezeAccount = async () => {
 		if (!window.confirm("Are you sure you want to freeze your account?")) return;
 
@@ -41,13 +41,17 @@ export const SettingsPage = () => {
 			<Button size={"sm"} colorScheme='red' onClick={freezeAccount}>
 				Freeze
 			</Button>
-			<Stack  direction='row' my={8} align={"center"} onClick={toggleColorMode}>
-					<IoSunnyOutline/>
-					<Switch colorScheme='teal' size='lg' />
-					<MdOutlineDarkMode/>
-					<Text>{colorMode}</Text>
+			<Stack direction='row' my={8} align={"center"}>
+				<IoSunnyOutline />
+				<Switch
+					colorScheme='teal'
+					size='lg'
+					isChecked={colorMode === "dark"}
+					onChange={toggleColorMode}
+				/>
+				<MdOutlineDarkMode />
+				<Text>{colorMode}</Text>
 			</Stack>
-
 		</>
 	);
 };

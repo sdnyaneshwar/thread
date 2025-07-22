@@ -38,8 +38,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<RecoilRoot>
 			<BrowserRouter>
+				<ColorModeScript initialColorMode={theme.config.initialColorMode} />
 				<ChakraProvider theme={theme}>
-					<ColorModeScript initialColorMode={theme.config.initialColorMode} />
 					<SocketContextProvider>
 						<App />
 					</SocketContextProvider>
